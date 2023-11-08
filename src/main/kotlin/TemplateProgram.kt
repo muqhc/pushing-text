@@ -8,17 +8,59 @@ import kotlin.math.*
 
 suspend fun main() = applicationAsync {
     configure {
-        title = "Your Title"
+        title = "Pushing Text"
     }
     program {
 
+        var mousePosition: Vector2 = Vector2(0.0,0.0)
+
         val urlParamMap = getUrlParamMap(js("window.location.search"))
 
+        val rawPrimaryText = urlParamMap["primary"] ?: "here|welcome|scroll|down"
+        val scalePreset: Double = paramMap["scale"]?.toDoubleOrNull() ?: 1.0
+        
+        val primaryTexts = rawPrimaryText.split('|')
+
+        mouse.moved.listen {
+            mousePosition = it.position
+        }
+
+        mouse.dragged.listen {
+            mousePosition = it.position
+        }
+
         extend {
-            val a = rgb("#ff0000")
-            drawer.clear(a)
-            drawer.fill = ColorRGBa.WHITE
-            drawer.circle(width / 2.0, height / 2.0, 100.0 + cos(seconds) * 40.0)
+            val myBackgroundColor = ColorRGBa.PINK
+            val myPrimaryColor = ColorRGBa.GRAY
+
+            val middle = Vector2(0.0,height/2.0)
+
+            val jTransition = (mousePosition.y - (height/2.0))/mousePosition.x
+
+            
+            drawer.clear(myBackgroundColor)
+
+            alphabet15dotWriter(drawer) {
+                val a15dStyle = A15DWriteStyle().apply {
+                    color = myPrimaryColor
+                    charGap = 0.6
+                    scale = defaultStyle.scale * scalePreset
+                    weight = defaultStyle.weight * scalePreset
+                    linearTransition = Matrix22(
+                        1.0,         0.0,
+                        jTransition, 1.0
+                    )
+                }
+
+                newWriting(a15dStyle) {
+                    val startCursorY = middle.y - (textHeight * primaryTexts.count() / 2.0)
+                    move(20.0*scalePreset,startCursorY)
+                    primaryTexts.forEach {
+                        writeLine(it)
+                    }
+                }
+            }
+
         }
     }
 }
