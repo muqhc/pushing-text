@@ -14,6 +14,9 @@ suspend fun main() = applicationAsync {
 
         var mousePosition: Vector2 = Vector2(0.0,0.0)
 
+        var lastInterected = 0.0
+        var isInteracted = false
+
         val urlParamMap = getUrlParamMap(js("window.location.search"))
 
         val rawPrimaryText = urlParamMap["primary"] ?: "here|welcome|scroll|down"
@@ -23,13 +26,22 @@ suspend fun main() = applicationAsync {
 
         mouse.moved.listen {
             mousePosition = it.position
+            isInterected = true
         }
 
         mouse.dragged.listen {
             mousePosition = it.position
+            isInterected = true
         }
 
         extend {
+            if (isInteracted) {
+                lastInterected = seconds
+                isInteracted = false
+            }
+
+            if ((seconds - lastInterected) > 0.5) return@extend
+
             val myBackgroundColor = ColorRGBa.PINK
             val myPrimaryColor = ColorRGBa.GRAY
 
