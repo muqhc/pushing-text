@@ -36,7 +36,7 @@ suspend fun main() = applicationAsync {
             val middle = Vector2(0.0,height/2.0)
 
             val iTransitionY = tanh((mousePosition.y - (height/2.0)) / max(0.1,mousePosition.x))
-            val iTransitionX = (mousePosition.x / width) / 2 + 0.75
+            val iTransitionX = (mousePosition.x / width) / 1.5 + 0.66
             
             drawer.clear(myBackgroundColor)
 
