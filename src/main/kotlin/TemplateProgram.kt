@@ -26,12 +26,12 @@ suspend fun main() = applicationAsync {
 
         mouse.moved.listen {
             mousePosition = it.position
-            isInterected = true
+            isInteracted = true
         }
 
         mouse.dragged.listen {
             mousePosition = it.position
-            isInterected = true
+            isInteracted = true
         }
 
         extend {
