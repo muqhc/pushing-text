@@ -20,6 +20,8 @@ class A15DWriteStyle() {
     var color: ColorRGBa = ColorRGBa.BLACK
     var alphabet15dotMap = alphabet15dotASCIIMap
     var linearTransition = Matrix22.IDENTITY
+    var isCursorXTransiting = false
+    var isCursorYTransiting = false
 }
 
 class Alphabet15dotWriter(val drawer: Drawer, val defaultStyle: A15DWriteStyle = A15DWriteStyle()) {
@@ -51,7 +53,7 @@ class Alphabet15dotWriter(val drawer: Drawer, val defaultStyle: A15DWriteStyle =
         }
 
         fun writeLine(text: String) {
-            val originCursorX = cursorX
+            val originCursor = cursor + 0.0
             text.toList().forEach { c ->
                 (style.alphabet15dotMap[c] ?: alphabet15dotASCIIMap['$']!!).forEach { dL ->
                     if (dL.size == 1) {
@@ -80,11 +82,12 @@ class Alphabet15dotWriter(val drawer: Drawer, val defaultStyle: A15DWriteStyle =
                         }
                     }
                 }
-
-                cursorX += style.scale.x * (2 + style.charGap)
+                if (!style.isCursorXTransiting) { cursorX += style.scale.x * (2 + style.charGap) }
+                else { cursor = cursor + (linearTransition * Vector2(style.scale.x * (2 + style.charGap), 0.0)) }
             }
-            cursorX = originCursorX
-            cursorY += style.scale.y * (4 + style.lineGap)
+            cursor = originCursor + 0.0
+            if (!style.isCursorYTransiting) { cursorY += style.scale.y * (4 + style.lineGap) }
+            cursor = cursor + (linearTransition * Vector2(0.0, style.scale.y * (4 + style.lineGap)))
         }
     }
 

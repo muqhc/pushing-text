@@ -35,12 +35,8 @@ suspend fun main() = applicationAsync {
 
             val middle = Vector2(0.0,height/2.0)
 
-            val jTransition = (mousePosition.y - (height/2.0)) / max(0.1,mousePosition.x)
-
-            println(jTransition)
-            println(max(0.1,mousePosition.x))
-            println((mousePosition.y - (height/2.0)))
-
+            val iTransitionY = (mousePosition.y - (height/2.0)) / max(0.1,mousePosition.x)
+            val iTransitionX = (mousePosition.x / width) / 2 + 0.75
             
             drawer.clear(myBackgroundColor)
 
@@ -48,16 +44,19 @@ suspend fun main() = applicationAsync {
                 val a15dStyle = A15DWriteStyle().apply {
                     color = myPrimaryColor
                     charGap = 0.6
+                    lineGap = 1.5
                     scale = defaultStyle.scale * scalePreset
                     weight = defaultStyle.weight * scalePreset
+                    isCursorXTransiting = true
+                    isCursorYTransiting = true
                     linearTransition = Matrix22(
-                        1.0,         0.0,
-                        jTransition, 1.0
+                        iTransitionX, 0.0,
+                        iTransitionY, 1.0
                     )
                 }
 
                 newWriting(a15dStyle) {
-                    val startCursorY = middle.y - (textHeight * primaryTexts.count() / 2.0)
+                    val startCursorY = middle.y - ((textHeight / 2.0 + (style.lineGap)) * primaryTexts.count())
                     move(20.0*scalePreset,startCursorY)
                     primaryTexts.forEach {
                         writeLine(it)
