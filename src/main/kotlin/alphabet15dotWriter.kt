@@ -83,11 +83,11 @@ class Alphabet15dotWriter(val drawer: Drawer, val defaultStyle: A15DWriteStyle =
                     }
                 }
                 if (!style.isCursorXTransiting) { cursorX += style.scale.x * (2 + style.charGap) }
-                else { cursor = cursor + (linearTransition * Vector2(style.scale.x * (2 + style.charGap), 0.0)) }
+                else { cursor = cursor + (style.linearTransition * Vector2(style.scale.x * (2 + style.charGap), 0.0)) }
             }
             cursor = originCursor + 0.0
             if (!style.isCursorYTransiting) { cursorY += style.scale.y * (4 + style.lineGap) }
-            cursor = cursor + (linearTransition * Vector2(0.0, style.scale.y * (4 + style.lineGap)))
+            cursor = cursor + (style.linearTransition * Vector2(0.0, style.scale.y * (4 + style.lineGap)))
         }
     }
 
