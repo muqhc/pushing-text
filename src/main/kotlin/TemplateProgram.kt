@@ -38,6 +38,8 @@ suspend fun main() = applicationAsync {
             val jTransition = (mousePosition.y - (height/2.0)) / max(0.1,mousePosition.x)
 
             println(jTransition)
+            println(max(0.1,mousePosition.x))
+            println((mousePosition.y - (height/2.0)))
 
             
             drawer.clear(myBackgroundColor)
