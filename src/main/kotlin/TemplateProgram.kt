@@ -35,7 +35,7 @@ suspend fun main() = applicationAsync {
 
             val middle = Vector2(0.0,height/2.0)
 
-            val jTransition = (mousePosition.y - (height/2.0)) / min(0.1,mousePosition.x)
+            val jTransition = (mousePosition.y - (height/2.0)) / max(0.1,mousePosition.x)
 
             println(jTransition)
 
