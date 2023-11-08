@@ -17,7 +17,7 @@ suspend fun main() = applicationAsync {
         val urlParamMap = getUrlParamMap(js("window.location.search"))
 
         val rawPrimaryText = urlParamMap["primary"] ?: "here|welcome|scroll|down"
-        val scalePreset: Double = paramMap["scale"]?.toDoubleOrNull() ?: 1.0
+        val scalePreset: Double = urlParamMap["scale"]?.toDoubleOrNull() ?: 1.0
         
         val primaryTexts = rawPrimaryText.split('|')
 
