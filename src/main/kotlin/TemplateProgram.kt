@@ -12,9 +12,6 @@ suspend fun main() = applicationAsync {
         title = "Pushing Text"
     }
     program {
-
-        var mousePosition: Vector2 = Vector2(0.0,0.0)
-
         var lastInterected = 0.0
         var isInteracted = false
 
@@ -26,12 +23,6 @@ suspend fun main() = applicationAsync {
         val primaryTexts = rawPrimaryText.split('|')
 
         mouse.moved.listen {
-            mousePosition = it.position
-            isInteracted = true
-        }
-
-        mouse.dragged.listen {
-            mousePosition = it.position
             isInteracted = true
         }
 
@@ -44,6 +35,8 @@ suspend fun main() = applicationAsync {
             }
 
             if ((seconds - lastInterected) > 0.5) return@extend
+
+            val mousePosition = mouse.position
 
             val myBackgroundColor = ColorRGBa.PINK
             val myPrimaryColor = ColorRGBa.GRAY
