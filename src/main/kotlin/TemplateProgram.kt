@@ -13,7 +13,7 @@ suspend fun main() = applicationAsync {
     }
     program {
         var lastInterected = 0.0
-        var isInteracted = false
+        var isInteracted = true
 
         val urlParamMap = getUrlParamMap(js("window.location.search"))
 
